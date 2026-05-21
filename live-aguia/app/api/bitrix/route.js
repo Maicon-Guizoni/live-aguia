@@ -5,21 +5,21 @@ export async function POST(request) {
     const { nome, telefone, email, indicador } = body;
 
     const ip =
-  request.headers.get("x-forwarded-for")?.split(",")[0] ||
-  request.headers.get("x-real-ip") ||
-  "IP não identificado";
+      request.headers.get("x-forwarded-for")?.split(",")[0] ||
+      request.headers.get("x-real-ip") ||
+      "IP não identificado";
 
-const userAgent =
-  request.headers.get("user-agent") ||
-  "User agent não identificado";
+    const userAgent =
+      request.headers.get("user-agent") || "User agent não identificado";
 
-const origem =
-  request.headers.get("referer") ||
-  "Origem não identificada";
+    const origem = request.headers.get("referer") || "Origem não identificada";
 
-const dataHora = new Date().toLocaleString("pt-BR");
+    const dataHora = new Date().toLocaleString("pt-BR");
 
     const webhook = process.env.BITRIX_WEBHOOK_URL;
+
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_ANON_KEY;
 
     if (!nome || !telefone) {
       return Response.json(
@@ -28,7 +28,48 @@ const dataHora = new Date().toLocaleString("pt-BR");
       );
     }
 
-    // 1. Criar contato
+    const telefoneLimpo = String(telefone).replace(/\D/g, "");
+    const emailLimpo = email ? String(email).trim().toLowerCase() : "";
+
+    // 1. Consultar duplicado no Supabase
+    let leadOriginal = null;
+
+    if (supabaseUrl && supabaseKey) {
+      const filtros = [];
+
+      if (telefoneLimpo) {
+        filtros.push(`telefone.eq.${telefoneLimpo}`);
+      }
+
+      if (emailLimpo) {
+        filtros.push(`email.eq.${emailLimpo}`);
+      }
+
+      if (filtros.length > 0) {
+        const consultaDuplicado = await fetch(
+          `${supabaseUrl}/rest/v1/flash_sales_leads?or=(${filtros.join(
+            ","
+          )})&order=created_at.asc&limit=1`,
+          {
+            method: "GET",
+            headers: {
+              apikey: supabaseKey,
+              Authorization: `Bearer ${supabaseKey}`,
+            },
+          }
+        );
+
+        const duplicados = await consultaDuplicado.json();
+
+        if (Array.isArray(duplicados) && duplicados.length > 0) {
+          leadOriginal = duplicados[0];
+        }
+      }
+    }
+
+    const duplicado = Boolean(leadOriginal);
+
+    // 2. Criar contato no Bitrix
     const contatoResponse = await fetch(`${webhook}/crm.contact.add`, {
       method: "POST",
       headers: {
@@ -39,14 +80,14 @@ const dataHora = new Date().toLocaleString("pt-BR");
           NAME: nome,
           PHONE: [
             {
-              VALUE: telefone,
+              VALUE: telefoneLimpo,
               VALUE_TYPE: "WORK",
             },
           ],
-          EMAIL: email
+          EMAIL: emailLimpo
             ? [
                 {
-                  VALUE: email,
+                  VALUE: emailLimpo,
                   VALUE_TYPE: "WORK",
                 },
               ]
@@ -66,25 +107,49 @@ const dataHora = new Date().toLocaleString("pt-BR");
 
     const contatoId = contatoData.result;
 
-    // 2. Criar negócio/card no pipeline 36
-const negocioResponse = await fetch(`${webhook}/crm.item.add`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    entityTypeId: 2,
-    fields: {
-      title: `Lead Live - ${nome}`,
-      contactId: contatoId,
-      categoryId: 36,
-      stageId: "C36:NEW",
+    const comentarioDuplicado = duplicado
+      ? `
+⚠️ LEAD DUPLICADO NA CAMPANHA
 
-      // responsável do card
-      assignedById: Number(indicador),
+Este telefone/e-mail já apareceu antes na base limpa da campanha.
 
-      comments: `
+Indicador original: ${leadOriginal?.indicador || "Não identificado"}
+Indicador desta tentativa: ${indicador || "Sem indicador"}
+Primeiro cadastro em: ${leadOriginal?.created_at || "Não identificado"}
+ID original no Supabase: ${leadOriginal?.id || "Não identificado"}
+`
+      : `
+Lead novo na campanha.
+`;
+
+    // 3. Criar negócio/card no Bitrix
+    const negocioResponse = await fetch(`${webhook}/crm.item.add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        entityTypeId: 2,
+        fields: {
+          title: duplicado
+            ? `[DUPLICADO] Lead Live - ${nome}`
+            : `Lead Live - ${nome}`,
+          contactId: contatoId,
+          categoryId: 36,
+          stageId: "C36:NEW",
+
+          assignedById: Number(indicador),
+
+          comments: `
+${comentarioDuplicado}
+
 Lead cadastrado pela LP da live.
+
+Duplicado: ${duplicado ? "SIM" : "NÃO"}
+
+Nome: ${nome}
+Telefone: ${telefoneLimpo}
+E-mail: ${emailLimpo || "Não informado"}
 
 ID do indicador/responsável: ${indicador || "Sem indicador"}
 
@@ -99,9 +164,9 @@ ${origem}
 Data/Hora:
 ${dataHora}
 `,
-    },
-  }),
-});
+        },
+      }),
+    });
 
     const negocioData = await negocioResponse.json();
 
@@ -112,11 +177,42 @@ ${dataHora}
       );
     }
 
+    const negocioId =
+      negocioData.result?.item?.id || negocioData.result?.id || null;
+
+    // 4. Salvar lead no Supabase
+    if (supabaseUrl && supabaseKey) {
+      await fetch(`${supabaseUrl}/rest/v1/flash_sales_leads`, {
+        method: "POST",
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+          "Content-Type": "application/json",
+          Prefer: "return=minimal",
+        },
+        body: JSON.stringify({
+          nome,
+          telefone: telefoneLimpo,
+          email: emailLimpo,
+          indicador: indicador ? String(indicador) : null,
+          origem,
+          ip,
+          user_agent: userAgent,
+          duplicado,
+          lead_original_id: leadOriginal?.id || null,
+          indicador_original: leadOriginal?.indicador || null,
+          bitrix_deal_id: negocioId ? String(negocioId) : null,
+        }),
+      });
+    }
+
     return Response.json({
       success: true,
       contatoId,
       negocio: negocioData.result,
       indicador,
+      duplicado,
+      leadOriginal,
     });
   } catch (error) {
     return Response.json(

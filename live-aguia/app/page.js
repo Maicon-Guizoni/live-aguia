@@ -100,8 +100,16 @@ export default function Home() {
   return (
     <main className="bg-black text-white">
       <section className="bg-black">
-        <img src="/capa.png" alt="Flash Sales" className="block h-auto w-full" />
-      </section>
+  <picture>
+    <source media="(max-width: 768px)" srcSet="/capa-mobile.jpeg" />
+
+    <img
+      src="/capa.png"
+      alt="Flash Sales"
+      className="block h-auto w-full"
+    />
+  </picture>
+</section>
 
       <section className="bg-gradient-to-b from-black to-[#f89921] px-6 pb-0 pt-10 text-white">
         <div className="mx-auto max-w-4xl text-center">
