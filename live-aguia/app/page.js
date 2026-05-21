@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+const [erroTelefone, setErroTelefone] = useState("");
 
 export default function Home() {
   const [indicador, setIndicador] = useState("");
@@ -19,9 +20,19 @@ export default function Home() {
 
     const form = event.target;
 
+    const telefoneLimpo = form.telefone.value.replace(/\D/g, "");
+
+if (telefoneLimpo.length !== 11) {
+  setErroTelefone("Digite um telefone com 11 números.");
+  setEnviando(false);
+  return;
+}
+
+setErroTelefone("");
+
     const dados = {
       nome: form.nome.value,
-      telefone: form.telefone.value,
+      telefone: telefoneLimpo,
       email: form.email.value,
       indicador,
     };
@@ -79,9 +90,15 @@ export default function Home() {
             <input
               name="telefone"
               required
+              maxLength={15}
               className="rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-white outline-none"
               placeholder="Seu telefone"
             />
+            {erroTelefone && (
+  <p className="text-sm text-red-500">
+    {erroTelefone}
+  </p>
+)}
 
             <input
               name="email"
