@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 export default function Obrigado() {
-  const [contador, setContador] = useState(3);
+  const [contador, setContador] = useState(5);
 
   useEffect(() => {
     if (contador <= 0) {
