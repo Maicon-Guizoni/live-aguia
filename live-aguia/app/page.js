@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-const [erroTelefone, setErroTelefone] = useState("");
 
 export default function Home() {
   const [indicador, setIndicador] = useState("");
   const [status, setStatus] = useState("");
   const [enviando, setEnviando] = useState(false);
+  const [erroTelefone, setErroTelefone] = useState("");
 
   useEffect(() => {
     const indicadorSalvo = localStorage.getItem("indicador");
