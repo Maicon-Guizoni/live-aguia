@@ -83,12 +83,11 @@ export default function Home() {
       const resultado = await resposta.json();
 
       if (resultado.success) {
-        setStatus("Cadastro realizado com sucesso!");
-        form.reset();
-      } else {
-        setStatus("Erro ao cadastrar.");
-        console.log(resultado);
-      }
+  window.location.href = "/obrigado";
+} else {
+  setStatus("Erro ao cadastrar.");
+  console.log(resultado);
+}
     } catch (erro) {
       console.log(erro);
       setStatus("Erro ao enviar formulário.");
