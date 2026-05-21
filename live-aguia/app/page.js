@@ -23,7 +23,7 @@ export default function Home() {
     const telefoneLimpo = form.telefone.value.replace(/\D/g, "");
 
 if (telefoneLimpo.length !== 11) {
-  setErroTelefone("Digite um telefone com 11 números.");
+  setErroTelefone("Digite um telefone válido ex: (99)99999999.");
   setEnviando(false);
   return;
 }
