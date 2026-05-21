@@ -4,6 +4,21 @@ export async function POST(request) {
 
     const { nome, telefone, email, indicador } = body;
 
+    const ip =
+  request.headers.get("x-forwarded-for")?.split(",")[0] ||
+  request.headers.get("x-real-ip") ||
+  "IP não identificado";
+
+const userAgent =
+  request.headers.get("user-agent") ||
+  "User agent não identificado";
+
+const origem =
+  request.headers.get("referer") ||
+  "Origem não identificada";
+
+const dataHora = new Date().toLocaleString("pt-BR");
+
     const webhook = process.env.BITRIX_WEBHOOK_URL;
 
     if (!nome || !telefone) {
@@ -68,9 +83,22 @@ const negocioResponse = await fetch(`${webhook}/crm.item.add`, {
       // responsável do card
       assignedById: Number(indicador),
 
-      comments: `Lead cadastrado pela LP da live. ID do indicador/responsável: ${
-        indicador || "Sem indicador"
-      }`,
+      comments: `
+Lead cadastrado pela LP da live.
+
+ID do indicador/responsável: ${indicador || "Sem indicador"}
+
+IP: ${ip}
+
+Dispositivo/Navegador:
+${userAgent}
+
+Origem:
+${origem}
+
+Data/Hora:
+${dataHora}
+`,
     },
   }),
 });
