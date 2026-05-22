@@ -102,6 +102,7 @@ export async function POST(request) {
                 },
               ]
             : [],
+            
         },
       }),
     });
@@ -141,16 +142,23 @@ Lead novo na campanha.
       body: JSON.stringify({
         entityTypeId: 2,
         fields: {
-          title: duplicado
-            ? `[DUPLICADO] Lead Live - ${nome}`
-            : `Lead Live - ${nome}`,
-          contactId: contatoId,
-          categoryId: 36,
-          stageId: "C36:NEW",
+  title: duplicado
+    ? `[DUPLICADO] Lead Live - ${nome}`
+    : `Lead Live - ${nome}`,
 
-          assignedById: Number(indicador),
+  contactId: contatoId,
+  categoryId: 36,
+  stageId: "C36:NEW",
 
-          comments: `
+  assignedById: Number(indicador),
+
+  utmSource: utm_source || "",
+  utmMedium: utm_medium || "",
+  utmCampaign: utm_campaign || "",
+  utmContent: utm_content || "",
+  utmTerm: utm_term || "",
+
+  comments: `
 ${comentarioDuplicado}
 
 Lead cadastrado pela LP da live.
