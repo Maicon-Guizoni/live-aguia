@@ -54,12 +54,20 @@ export default function Home() {
 
     setEnviando(true);
     setStatus("");
+    const emailLimpo = form.email.value.trim().toLowerCase();
 
+const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailLimpo);
+
+if (!emailValido) {
+  setStatus("Digite um e-mail válido. Exemplo: nome@dominio.com");
+  setEnviando(false);
+  return;
+}
     const form = event.target;
     const telefoneLimpo = form.telefone.value.replace(/\D/g, "");
 
     if (telefoneLimpo.length !== 11) {
-      setErroTelefone("Digite um telefone válido com DDD.");
+      setErroTelefone("Digite um telefone válido, ex: (11) 988888888.");
       setEnviando(false);
       return;
     }
@@ -69,7 +77,7 @@ export default function Home() {
 const dados = {
   nome: form.nome.value,
   telefone: telefoneLimpo,
-  email: form.email.value,
+  email: emailLimpo,
   indicador,
   utm_source: localStorage.getItem("utm_source") || "",
   utm_medium: localStorage.getItem("utm_medium") || "",
