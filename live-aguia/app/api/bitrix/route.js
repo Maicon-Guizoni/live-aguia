@@ -157,6 +157,7 @@ Lead novo na campanha.
   utmCampaign: utm_campaign || "",
   utmContent: utm_content || "",
   utmTerm: utm_term || "",
+  UF_CRM_1774964189: duplicado ? 23156 : null,
 
   comments: `
 ${comentarioDuplicado}
