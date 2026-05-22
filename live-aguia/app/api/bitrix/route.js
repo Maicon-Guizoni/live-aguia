@@ -2,7 +2,17 @@ export async function POST(request) {
   try {
     const body = await request.json();
 
-    const { nome, telefone, email, indicador } = body;
+    const {
+  nome,
+  telefone,
+  email,
+  indicador,
+  utm_source,
+  utm_medium,
+  utm_campaign,
+  utm_content,
+  utm_term,
+} = body;
 
     const ip =
       request.headers.get("x-forwarded-for")?.split(",")[0] ||
@@ -161,6 +171,13 @@ ${userAgent}
 Origem:
 ${origem}
 
+Parâmetros UTM:
+utm_source: ${utm_source || "Não informado"}
+utm_medium: ${utm_medium || "Não informado"}
+utm_campaign: ${utm_campaign || "Não informado"}
+utm_content: ${utm_content || "Não informado"}
+utm_term: ${utm_term || "Não informado"}
+
 Data/Hora:
 ${dataHora}
 `,
@@ -202,6 +219,11 @@ ${dataHora}
           lead_original_id: leadOriginal?.id || null,
           indicador_original: leadOriginal?.indicador || null,
           bitrix_deal_id: negocioId ? String(negocioId) : null,
+          utm_source: utm_source || null,
+utm_medium: utm_medium || null,
+utm_campaign: utm_campaign || null,
+utm_content: utm_content || null,
+utm_term: utm_term || null,
         }),
       });
     }

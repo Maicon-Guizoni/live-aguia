@@ -66,12 +66,17 @@ export default function Home() {
 
     setErroTelefone("");
 
-    const dados = {
-      nome: form.nome.value,
-      telefone: telefoneLimpo,
-      email: form.email.value,
-      indicador,
-    };
+const dados = {
+  nome: form.nome.value,
+  telefone: telefoneLimpo,
+  email: form.email.value,
+  indicador,
+  utm_source: localStorage.getItem("utm_source") || "",
+  utm_medium: localStorage.getItem("utm_medium") || "",
+  utm_campaign: localStorage.getItem("utm_campaign") || "",
+  utm_content: localStorage.getItem("utm_content") || "",
+  utm_term: localStorage.getItem("utm_term") || "",
+};
 
     try {
       const resposta = await fetch("/api/bitrix", {
