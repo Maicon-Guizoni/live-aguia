@@ -6,6 +6,14 @@ export default function Obrigado() {
   const [contador, setContador] = useState(5);
 
   useEffect(() => {
+    if (typeof window !== "undefined" && window.fbq) {
+      window.fbq("track", "Lead", {
+        content_name: "Flash Rogga",
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     if (contador <= 0) {
       window.location.href =
         "https://chat.whatsapp.com/LZAbmBD7NZFLegHPr4prVk";
