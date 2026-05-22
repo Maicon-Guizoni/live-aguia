@@ -50,64 +50,67 @@ export default function Home() {
   }, []);
 
   async function enviarFormulario(event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    setEnviando(true);
-    setStatus("");
-    const emailLimpo = form.email.value.trim().toLowerCase();
+  setEnviando(true);
+  setStatus("");
 
-const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailLimpo);
+  const form = event.target;
 
-if (!emailValido) {
-  setStatus("Digite um e-mail válido. Exemplo: nome@dominio.com");
-  setEnviando(false);
-  return;
-}
-    const form = event.target;
-    const telefoneLimpo = form.telefone.value.replace(/\D/g, "");
+  const telefoneLimpo = form.telefone.value.replace(/\D/g, "");
+  const emailLimpo = form.email.value.trim().toLowerCase();
 
-    if (telefoneLimpo.length !== 11) {
-      setErroTelefone("Digite um telefone válido, ex: (11) 988888888.");
-      setEnviando(false);
+  if (telefoneLimpo.length !== 11) {
+    setErroTelefone("Digite um telefone válido com DDD.");
+    setEnviando(false);
+    return;
+  }
+
+  const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailLimpo);
+
+  if (!emailValido) {
+    setStatus("Digite um e-mail válido. Exemplo: nome@dominio.com");
+    setEnviando(false);
+    return;
+  }
+
+  setErroTelefone("");
+
+  const dados = {
+    nome: form.nome.value,
+    telefone: telefoneLimpo,
+    email: emailLimpo,
+    indicador,
+    utm_source: localStorage.getItem("utm_source") || "",
+    utm_medium: localStorage.getItem("utm_medium") || "",
+    utm_campaign: localStorage.getItem("utm_campaign") || "",
+    utm_content: localStorage.getItem("utm_content") || "",
+    utm_term: localStorage.getItem("utm_term") || "",
+  };
+
+  try {
+    const resposta = await fetch("/api/bitrix", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados),
+    });
+
+    const resultado = await resposta.json();
+
+    if (resultado.success) {
+      window.location.href = "/obrigado";
       return;
+    } else {
+      setStatus("Erro ao cadastrar.");
+      console.log(resultado);
     }
-
-    setErroTelefone("");
-
-const dados = {
-  nome: form.nome.value,
-  telefone: telefoneLimpo,
-  email: emailLimpo,
-  indicador,
-  utm_source: localStorage.getItem("utm_source") || "",
-  utm_medium: localStorage.getItem("utm_medium") || "",
-  utm_campaign: localStorage.getItem("utm_campaign") || "",
-  utm_content: localStorage.getItem("utm_content") || "",
-  utm_term: localStorage.getItem("utm_term") || "",
-};
-
-    try {
-      const resposta = await fetch("/api/bitrix", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dados),
-      });
-
-      const resultado = await resposta.json();
-
-      if (resultado.success) {
-  window.location.href = "/obrigado";
-} else {
-  setStatus("Erro ao cadastrar.");
-  console.log(resultado);
-}
-    } catch (erro) {
-      console.log(erro);
-      setStatus("Erro ao enviar formulário.");
-    }
-
+  } catch (erro) {
+    console.log(erro);
+    setStatus("Erro ao enviar formulário.");
+  } finally {
     setEnviando(false);
   }
+}
 
   return (
     <main className="bg-black text-white">
