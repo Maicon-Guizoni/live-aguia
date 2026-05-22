@@ -34,12 +34,11 @@ export default function Obrigado() {
         />
 
         <h1 className="text-4xl font-bold md:text-5xl">
-          Inscrição concluída!
+          Falta 1 passo para concluir!
         </h1>
 
         <p className="mt-6 max-w-xl text-xl leading-relaxed text-white/90">
-          Você será redirecionado para a comunidade exclusiva da live no
-          WhatsApp.
+          Você será redirecionado para a comunidade exclusiva da live no Whatsapp onde receberá o link do evento.
         </p>
 
         <div className="my-8 text-7xl font-bold text-[#25D366]">
