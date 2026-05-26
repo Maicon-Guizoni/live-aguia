@@ -78,7 +78,7 @@ export default function Home() {
     const emailLimpo = form.email.value.trim().toLowerCase();
 
     if (telefoneLimpo.length !== 11) {
-      setErroTelefone("Digite um telefone válido com DDD.");
+      setErroTelefone("Digite um telefone válido com 11 digitos. Exemplo: 47912345678");
       setEnviando(false);
       return;
     }
