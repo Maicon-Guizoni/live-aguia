@@ -27,7 +27,7 @@ export default function Page() {
       }
     });
 
-    window.location.href = "/";
+    window.location.href = `/?indicador=${indicador}`;
   }, [params.indicador, searchParams]);
 
   return <h1>Redirecionando...</h1>;
