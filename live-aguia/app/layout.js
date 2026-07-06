@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Evento Águia",
   description: "Live exclusiva Curaçao",
+  openGraph: {
+    title: "Evento Águia",
+    description: "Live exclusiva Curaçao",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }) {
