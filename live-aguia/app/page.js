@@ -142,7 +142,8 @@ export default function Home() {
   <main className="bg-black text-white">
     <Hero />
 
-    <section className="bg-gradient-to-b from-black to-[#ffbc6b] px-6 pb-0 pt-10 text-white">
+    <section className="bg-gradient-to-b from-[#010f1e] to-black px-6 pt-10 pb-0 text-white">
+    
       <div className="mx-auto max-w-4xl text-center">
         <Contador tempo={tempo} />
 
@@ -154,7 +155,7 @@ export default function Home() {
         />
       </div>
       <SobreEvento />
-      
+
       <Footer />
     </section>
   </main>
