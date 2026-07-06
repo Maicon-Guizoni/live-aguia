@@ -153,7 +153,8 @@ export default function Home() {
           status={status}
         />
       </div>
-
+      <SobreEvento />
+      
       <Footer />
     </section>
   </main>
