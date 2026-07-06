@@ -25,13 +25,13 @@ export default function Obrigado() {
   }, [contador]);
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gradient-to-b from-black via-[#1a0c00] to-[#f89921] px-6 py-10 text-center text-white">
+    <main className="flex min-h-screen items-center justify-center bg-gradient-to-b from-black via-[#d47e33] to-[#f48805] px-6 py-10 text-center text-white">
       <div className="mx-auto flex max-w-2xl flex-col items-center">
-        <img
+        {/* <img
           src="/obrigado.png"
           alt="Flash Sales"
           className="mb-8 w-full max-w-md"
-        />
+        /> */}
 
         <h1 className="text-4xl font-bold md:text-5xl">
           Falta 1 passo para concluir!
