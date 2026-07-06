@@ -1,3 +1,5 @@
+import { campanha } from "@/config/campanha";
+
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -57,9 +59,9 @@ export async function POST(request) {
 
       if (filtros.length > 0) {
         const consultaDuplicado = await fetch(
-          `${supabaseUrl}/rest/v1/flash_sales_leads?or=(${filtros.join(
-            ","
-          )})&order=created_at.asc&limit=1`,
+        `${supabaseUrl}/rest/v1/flash_sales_leads?evento=eq.${encodeURIComponent(
+          campanha.codigo
+            )}&or=(${filtros.join(",")})&order=created_at.asc&limit=1`,
           {
             method: "GET",
             headers: {
@@ -126,7 +128,11 @@ Este telefone/e-mail já apareceu antes na base limpa da campanha.
 
 Indicador original: ${leadOriginal?.indicador || "Não identificado"}
 Indicador desta tentativa: ${indicador || "Sem indicador"}
-Primeiro cadastro em: ${leadOriginal?.created_at || "Não identificado"}
+Primeiro cadastro em: ${
+  leadOriginal?.created_at
+    ? new Date(leadOriginal.created_at).toLocaleString("pt-BR")
+    : "Não identificado"
+}
 ID original no Supabase: ${leadOriginal?.id || "Não identificado"}
 `
       : `
@@ -142,13 +148,13 @@ Lead novo na campanha.
       body: JSON.stringify({
         entityTypeId: 2,
         fields: {
-  title: duplicado
-    ? `[DUPLICADO] Lead Live - ${nome}`
-    : `Lead Live - ${nome}`,
+    title: duplicado
+      ? `[DUPLICADO] ${campanha.nome} - ${nome}`
+      : `${campanha.nome} - ${nome}`,
 
   contactId: contatoId,
-  categoryId: 36,
-  stageId: "C36:NEW",
+  categoryId: campanha.pipeline,
+  stageId: campanha.etapaInicial,
 
   assignedById: Number(indicador),
 
@@ -163,7 +169,9 @@ Lead novo na campanha.
   comments: `
 ${comentarioDuplicado}
 
-Lead cadastrado pela LP da live.
+Lead cadastrado pela Landing Page da campanha.
+
+Campanha: ${campanha.nome}
 
 Duplicado: ${duplicado ? "SIM" : "NÃO"}
 
@@ -221,6 +229,7 @@ ${dataHora}
           nome,
           telefone: telefoneLimpo,
           email: emailLimpo,
+          evento: campanha.codigo,
           indicador: indicador ? String(indicador) : null,
           origem,
           ip,
@@ -245,6 +254,7 @@ utm_term: utm_term || null,
       indicador,
       duplicado,
       leadOriginal,
+      campanha: campanha.codigo,
     });
   } catch (error) {
     return Response.json(

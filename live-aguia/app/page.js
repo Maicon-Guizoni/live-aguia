@@ -30,7 +30,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const dataEvento = new Date("2026-05-27T20:00:00-03:00");
+    const dataEvento = new Date("2026-07-09T20:00:00-03:00");
 
     function atualizarContador() {
       const agora = new Date();
@@ -256,7 +256,7 @@ export default function Home() {
             <strong>A Construtora Rôgga</strong>, hoje entre as 6 maiores
             construtoras do Brasil, acaba de registrar o
             <strong> melhor quadrimestre da sua história</strong> e,
-            para celebrar esse resultado, vai liberar no dia 27 de maio
+            para celebrar esse resultado, vai liberar no dia 9 de julho
             de 2026
             <strong className="text-[#f89921]">
               {" "}
