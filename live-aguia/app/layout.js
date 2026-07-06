@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Flash Sales Rôgga",
-  description: "Live exclusiva Flash Sales Rôgga",
+  title: "Evento Águia",
+  description: "Live exclusiva Curaçao",
 };
 
 export default function RootLayout({ children }) {
