@@ -1,7 +1,7 @@
 export const campanha = {
   // Identificação
-  codigo: "flash_rogga_2026",
-  nome: "Flash Rogga",
+  codigo: "curaçao_2026",
+  nome: "Curaçao",
 
   // Evento
   dataEvento: "2026-05-27T20:00:00-03:00",
@@ -16,8 +16,8 @@ export const campanha = {
   pixelMeta: "534158683908769",
 
   // SEO
-  tituloSite: "Flash Rogga 2026",
-  descricao: "Landing Page da campanha Flash Rogga",
+  tituloSite: "Curaçao 2026",
+  descricao: "Landing Page da campanha Curaçao",
 
   // Hero
   imagemDesktop: "/capa.png",
