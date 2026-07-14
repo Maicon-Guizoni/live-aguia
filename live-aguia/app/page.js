@@ -20,20 +20,36 @@ export default function Home() {
     segundos: "00",
   });
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
 
-    const indicadorUrl = params.get("indicador");
-    const indicadorSalvo = localStorage.getItem("indicador");
+  // Indicador
+  const indicadorUrl = params.get("indicador");
+  const indicadorSalvo = localStorage.getItem("indicador");
 
-    const indicadorFinal = indicadorUrl || indicadorSalvo || "";
+  const indicadorFinal = indicadorUrl || indicadorSalvo || "";
 
-    if (indicadorFinal) {
-      localStorage.setItem("indicador", indicadorFinal);
+  if (indicadorFinal) {
+    localStorage.setItem("indicador", indicadorFinal);
+  }
+
+  setIndicador(indicadorFinal);
+
+  // Salva UTMs se vierem na URL
+  [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+  ].forEach((param) => {
+    const valor = params.get(param);
+
+    if (valor) {
+      localStorage.setItem(param, valor);
     }
-
-    setIndicador(indicadorFinal);
-  }, []);
+  });
+}, []);
 
   useEffect(() => {
     const dataEvento = new Date("2026-07-09T20:00:00-03:00");
