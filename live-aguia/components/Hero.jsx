@@ -1,15 +1,17 @@
+import { campanha } from "@/config/campanha";
+
 export default function Hero() {
   return (
     <section className="bg-black">
       <picture>
         <source
           media="(max-width: 768px)"
-          srcSet="/capa-mobile.jpeg"
+          srcSet={campanha.imagemMobile}
         />
 
         <img
-          src="/capa.png"
-          alt="Flash Sales"
+          src={campanha.imagemDesktop}
+          alt={campanha.tituloSite}
           className="block h-auto w-full"
         />
       </picture>

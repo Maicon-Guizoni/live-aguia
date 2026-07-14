@@ -10,12 +10,22 @@ export default function Footer() {
         <p>
           Seu endereço de e-mail será utilizado exclusivamente para
           o envio de oportunidades, conteúdos sobre investimentos e
-          comunicações da Águia Consultoria Imobiliária.
-        </p>
-
-        <p>
+          comunicações da Águia Consultoria Imobiliária. Para mais
+          informações, acesse nossa{" "}
+          <a
+            href="https://aguiaconsultoriaimobiliaria.com/politica-de-privacidade/"
+            target="_blank"
+            rel="noreferrer"
+            className="underline hover:text-[#f89921]"
+          >
+            Política de Privacidade
+          </a>
+          .
+          <br />
+          <br />
           As rentabilidades passadas não garantem resultados
-          futuros.
+          futuros. Recomendamos a análise completa de todas as
+          condições antes de realizar qualquer investimento.
         </p>
 
         <p>

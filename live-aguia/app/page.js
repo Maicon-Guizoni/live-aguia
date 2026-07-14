@@ -4,8 +4,8 @@ import Hero from "@/components/Hero";
 import Contador from "@/components/Contador";
 import Formulario from "@/components/Formulario";
 import SobreEvento from "@/components/SobreEvento";
+import Equipe from "@/components/Equipe";
 import Footer from "@/components/Footer";
-
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -52,7 +52,7 @@ useEffect(() => {
 }, []);
 
   useEffect(() => {
-    const dataEvento = new Date("2026-07-09T20:00:00-03:00");
+    const dataEvento = new Date("2026-07-28T20:00:00-03:00");
 
     function atualizarContador() {
       const agora = new Date();
@@ -170,7 +170,18 @@ useEffect(() => {
           status={status}
         />
       </div>
+
       <SobreEvento />
+      <Equipe />
+
+      <div className="mx-auto max-w-4xl text-center">
+        <Formulario
+          enviarFormulario={enviarFormulario}
+          enviando={enviando}
+          erroTelefone={erroTelefone}
+          status={status}
+        />
+      </div>
 
       <Footer />
     </section>

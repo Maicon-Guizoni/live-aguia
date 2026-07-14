@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
+import { campanha } from "@/config/campanha";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,11 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Evento Águia",
-  description: "Live exclusiva Curaçao",
+  title: campanha.tituloSite,
+  description: campanha.descricao,
   openGraph: {
-    title: "Evento Águia",
-    description: "Live exclusiva Curaçao",
+    title: campanha.tituloSite,
+    description: campanha.descricao,
     type: "website",
   },
 };
@@ -47,7 +48,7 @@ export default function RootLayout({ children }) {
             s.parentNode.insertBefore(t,s)}
             (window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '534158683908769');
+            fbq('init', '${campanha.pixelMeta}');
             fbq('track', 'PageView');
           `}
         </Script>
@@ -59,7 +60,7 @@ export default function RootLayout({ children }) {
             height="1"
             width="1"
             style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=534158683908769&ev=PageView&noscript=1"
+            src={`https://www.facebook.com/tr?id=${campanha.pixelMeta}&ev=PageView&noscript=1`}
             alt=""
           />
         </noscript>
