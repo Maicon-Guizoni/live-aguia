@@ -115,14 +115,14 @@ export async function POST(request) {
 
     const duplicado = Boolean(leadOriginal);
 
-    // Caso especial: o cadastro original (nesta mesma campanha) veio do
-    // funil genérico de marketing (324) e agora um corretor de verdade está
+    // Caso especial: o cadastro original (nesta mesma campanha) veio de um
+    // dos funis genéricos de marketing e agora um corretor de verdade está
     // reivindicando esse mesmo lead. O card antigo vai para "duplicado" e
     // o novo card (deste corretor) vai direto para "validado".
     const reassumidoPorCorretor =
       duplicado &&
-      leadOriginal?.indicador === campanha.indicadorMarketing &&
-      String(indicador) !== campanha.indicadorMarketing;
+      campanha.indicadoresMarketing.includes(String(leadOriginal?.indicador)) &&
+      !campanha.indicadoresMarketing.includes(String(indicador));
 
     let stageId = campanha.etapaInicial;
 
@@ -230,7 +230,7 @@ Duplicado: ${duplicado ? "SIM" : "NÃO"}
 Corretor ativo identificado: ${corretorAtivo || "Não"}
 ${
   reassumidoPorCorretor
-    ? `\n🔁 LEAD REIVINDICADO POR CORRETOR\n\nEsse lead tinha entrado antes pelo marketing (indicador ${campanha.indicadorMarketing}) nesta campanha. O card antigo (negócio #${leadOriginal?.bitrix_deal_id || "desconhecido"}) foi movido para a etapa Duplicado.\n`
+    ? `\n🔁 LEAD REIVINDICADO POR CORRETOR\n\nEsse lead tinha entrado antes pelo marketing (indicador ${leadOriginal?.indicador}) nesta campanha. O card antigo (negócio #${leadOriginal?.bitrix_deal_id || "desconhecido"}) foi movido para a etapa Duplicado.\n`
     : ""
 }
 Nome: ${nome}

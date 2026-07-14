@@ -9,8 +9,10 @@ export default function Hero() {
         <img
           src={campanha.imagemDesktop}
           alt={campanha.tituloSite}
+          width={1920}
+          height={1080}
           fetchPriority="high"
-          className="block h-auto w-full"
+          className="block aspect-[4/5] h-auto w-full md:aspect-[16/9]"
         />
       </picture>
     </section>

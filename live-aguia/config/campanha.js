@@ -14,9 +14,9 @@ export const campanha = {
   etapaValidado: "C36:UC_6S348W",
   nomeLead: "Lead Live",
 
-  // ID genérico usado no link de indicador das campanhas de marketing
+  // IDs genéricos usados no link de indicador das campanhas de marketing
   // (sem corretor específico atribuído ainda)
-  indicadorMarketing: "324",
+  indicadoresMarketing: ["324", "366", "590", "194", "13964"],
 
   // Marketing
   grupoWhatsapp: "https://chat.whatsapp.com/IMy5qbIEOev5dcNbn9cBYf",
