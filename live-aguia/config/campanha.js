@@ -27,8 +27,8 @@ export const campanha = {
   descricao: "Com Flávio Augusto. Empreendedor, investidor e autor.",
 
   // Hero
-  imagemDesktop: "/capa.png",
-  imagemMobile: "/capa-mobile.png",
+  imagemDesktop: "/capa.webp",
+  imagemMobile: "/capa-mobile.webp",
 
   // Selo acima do contador
   selo: "AO VIVO | 28 DE JULHO | 20h",
@@ -68,19 +68,19 @@ export const campanha = {
     {
       nome: "Flávio Augusto",
       cargo: "Participação exclusiva",
-      foto: "/palestrantes/flavio-augusto.png",
+      foto: "/palestrantes/flavio-augusto.webp",
       bio: "Visionário implacável, Flávio Augusto saiu da periferia para construir um império bilionário. Hoje, à frente da Wiser, ele forja novos gigantes no Geração de Valor. Lenda do empreendedorismo.",
     },
     {
       nome: "Sandro Lucas",
       cargo: "CEO da Águia Consultoria Imobiliária",
-      foto: "/palestrantes/sandro-lucas.png",
+      foto: "/palestrantes/sandro-lucas.webp",
       bio: "Especialista em estruturação de investimentos imobiliários no Sul do Brasil, com atuação direta em projetos de alto padrão e estratégias voltadas à valorização inteligente de patrimônio.",
     },
     {
       nome: "Eduardo Schuster",
       cargo: "CEO da Santer Empreendimentos",
-      foto: "/palestrantes/eduardo-schuster.png",
+      foto: "/palestrantes/eduardo-schuster.webp",
       bio: "À frente de uma das maiores incorporadoras de SC, compartilha os planos que estão por trás da nova fase do litoral.",
     },
   ],
