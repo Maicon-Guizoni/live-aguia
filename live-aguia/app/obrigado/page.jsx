@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { campanha } from "@/config/campanha";
 
 export default function Obrigado() {
   const [contador, setContador] = useState(5);
@@ -8,15 +9,14 @@ export default function Obrigado() {
   useEffect(() => {
     if (typeof window !== "undefined" && window.fbq) {
       window.fbq("track", "Lead", {
-        content_name: "Flash Rogga",
+        content_name: campanha.nome,
       });
     }
   }, []);
 
   useEffect(() => {
     if (contador <= 0) {
-      window.location.href =
-        "https://chat.whatsapp.com/LZAbmBD7NZFLegHPr4prVk";
+      window.location.href = campanha.grupoWhatsapp;
       return;
     }
 
@@ -46,7 +46,7 @@ export default function Obrigado() {
         </div>
 
         <a
-          href="https://chat.whatsapp.com/LZAbmBD7NZFLegHPr4prVk"
+          href={campanha.grupoWhatsapp}
           className="rounded-xl bg-[#25D366] px-8 py-4 text-lg font-bold text-white shadow-lg transition hover:opacity-90"
         >
           Entrar na comunidade agora

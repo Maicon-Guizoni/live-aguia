@@ -43,6 +43,40 @@ export async function POST(request) {
     const telefoneLimpo = String(telefone).replace(/\D/g, "");
     const emailLimpo = email ? String(email).trim().toLowerCase() : "";
 
+    // 0. Verificar se o lead já é cliente de um corretor ativo na Águia
+    let corretorAtivo = null;
+
+    if (supabaseUrl && supabaseKey && (telefoneLimpo || emailLimpo)) {
+      const filtrosVenda = [];
+
+      if (telefoneLimpo) {
+        filtrosVenda.push(`telefone.eq.${telefoneLimpo}`);
+      }
+
+      if (emailLimpo) {
+        filtrosVenda.push(`email.eq.${emailLimpo}`);
+      }
+
+      const consultaVenda = await fetch(
+        `${supabaseUrl}/rest/v1/vendas_corretores?select=corretor_ativo&corretor_ativo=not.is.null&or=(${filtrosVenda.join(
+          ","
+        )})&limit=1`,
+        {
+          method: "GET",
+          headers: {
+            apikey: supabaseKey,
+            Authorization: `Bearer ${supabaseKey}`,
+          },
+        }
+      );
+
+      const vendasEncontradas = await consultaVenda.json();
+
+      if (Array.isArray(vendasEncontradas) && vendasEncontradas.length > 0) {
+        corretorAtivo = vendasEncontradas[0].corretor_ativo;
+      }
+    }
+
     // 1. Consultar duplicado no Supabase
     let leadOriginal = null;
 
@@ -80,6 +114,23 @@ export async function POST(request) {
     }
 
     const duplicado = Boolean(leadOriginal);
+
+    // Caso especial: o cadastro original (nesta mesma campanha) veio do
+    // funil genérico de marketing (324) e agora um corretor de verdade está
+    // reivindicando esse mesmo lead. O card antigo vai para "duplicado" e
+    // o novo card (deste corretor) vai direto para "validado".
+    const reassumidoPorCorretor =
+      duplicado &&
+      leadOriginal?.indicador === campanha.indicadorMarketing &&
+      String(indicador) !== campanha.indicadorMarketing;
+
+    let stageId = campanha.etapaInicial;
+
+    if (corretorAtivo) {
+      stageId = campanha.etapaCorretorAtivo;
+    } else if (reassumidoPorCorretor) {
+      stageId = campanha.etapaValidado;
+    }
 
     // 2. Criar contato no Bitrix
     const contatoResponse = await fetch(`${webhook}/crm.contact.add`, {
@@ -148,13 +199,13 @@ Lead novo na campanha.
       body: JSON.stringify({
         entityTypeId: 2,
         fields: {
-    title: duplicado
+    title: duplicado && !reassumidoPorCorretor
       ? `[DUPLICADO] ${campanha.nome} - ${nome}`
       : `${campanha.nome} - ${nome}`,
 
   contactId: contatoId,
   categoryId: campanha.pipeline,
-  stageId: campanha.etapaInicial,
+  stageId: stageId,
 
   assignedById: Number(indicador),
 
@@ -165,6 +216,7 @@ Lead novo na campanha.
   utmTerm: utm_term || "",
 
   ufCrm_1774964189: duplicado ? 23156 : null,
+  ufCrm_1778773957526: corretorAtivo || null,
 
   comments: `
 ${comentarioDuplicado}
@@ -175,6 +227,12 @@ Campanha: ${campanha.nome}
 
 Duplicado: ${duplicado ? "SIM" : "NÃO"}
 
+Corretor ativo identificado: ${corretorAtivo || "Não"}
+${
+  reassumidoPorCorretor
+    ? `\n🔁 LEAD REIVINDICADO POR CORRETOR\n\nEsse lead tinha entrado antes pelo marketing (indicador ${campanha.indicadorMarketing}) nesta campanha. O card antigo (negócio #${leadOriginal?.bitrix_deal_id || "desconhecido"}) foi movido para a etapa Duplicado.\n`
+    : ""
+}
 Nome: ${nome}
 Telefone: ${telefoneLimpo}
 E-mail: ${emailLimpo || "Não informado"}
@@ -215,6 +273,24 @@ ${dataHora}
     const negocioId =
       negocioData.result?.item?.id || negocioData.result?.id || null;
 
+    // 3.1 Se esse lead foi reivindicado por um corretor, move o card antigo
+    // (que estava com o marketing) para a etapa de Duplicado.
+    if (reassumidoPorCorretor && leadOriginal?.bitrix_deal_id) {
+      await fetch(`${webhook}/crm.item.update`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          entityTypeId: 2,
+          id: Number(leadOriginal.bitrix_deal_id),
+          fields: {
+            stageId: campanha.etapaDuplicado,
+          },
+        }),
+      });
+    }
+
     // 4. Salvar lead no Supabase
     if (supabaseUrl && supabaseKey) {
       await fetch(`${supabaseUrl}/rest/v1/flash_sales_leads`, {
@@ -254,6 +330,9 @@ utm_term: utm_term || null,
       indicador,
       duplicado,
       leadOriginal,
+      corretorAtivo,
+      reassumidoPorCorretor,
+      stageId,
       campanha: campanha.codigo,
     });
   } catch (error) {

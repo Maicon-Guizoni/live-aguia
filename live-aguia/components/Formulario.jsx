@@ -136,6 +136,27 @@ export default function Formulario({
             </div>
           </label>
 
+          <label className="flex items-start gap-2.5 text-left text-sm text-zinc-600">
+            <input
+              type="checkbox"
+              name="aceiteTermos"
+              required
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-zinc-300 text-[#f89921] focus:ring-2 focus:ring-[#f89921]/40"
+            />
+            <span>
+              Li e concordo com o{" "}
+              <a
+                href="/termos"
+                target="_blank"
+                rel="noreferrer"
+                className="underline hover:text-[#f89921]"
+              >
+                Termo de Compromisso e Condições de Acesso à Transmissão
+              </a>
+              .
+            </span>
+          </label>
+
           {erroTelefone && (
             <p className="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
               <svg

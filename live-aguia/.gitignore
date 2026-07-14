@@ -36,6 +36,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# dados pessoais de clientes (vivem no Supabase, não no repositório)
+/scripts/fontes/
+/data/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

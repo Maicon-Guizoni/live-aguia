@@ -9,10 +9,17 @@ export const campanha = {
   // Bitrix
   pipeline: 36,
   etapaInicial: "C36:NEW",
+  etapaCorretorAtivo: "C36:UC_YMK87P",
+  etapaDuplicado: "C36:FINAL_INVOICE",
+  etapaValidado: "C36:UC_6S348W",
   nomeLead: "Lead Live",
 
+  // ID genérico usado no link de indicador das campanhas de marketing
+  // (sem corretor específico atribuído ainda)
+  indicadorMarketing: "324",
+
   // Marketing
-  grupoWhatsapp: "https://chat.whatsapp.com/xxxxxxxx",
+  grupoWhatsapp: "https://chat.whatsapp.com/IMy5qbIEOev5dcNbn9cBYf",
   pixelMeta: "870653505969793",
 
   // SEO
