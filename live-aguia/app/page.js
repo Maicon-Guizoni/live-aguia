@@ -6,6 +6,7 @@ import Formulario from "@/components/Formulario";
 import SobreEvento from "@/components/SobreEvento";
 import Equipe from "@/components/Equipe";
 import Footer from "@/components/Footer";
+import { campanha } from "@/config/campanha";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -52,7 +53,7 @@ useEffect(() => {
 }, []);
 
   useEffect(() => {
-    const dataEvento = new Date("2026-07-28T20:00:00-03:00");
+    const dataEvento = new Date(campanha.dataEvento);
 
     function atualizarContador() {
       const agora = new Date();

@@ -40,6 +40,9 @@ yarn-error.log*
 /scripts/fontes/
 /data/
 
+# backup temporário do conteúdo real (spoiler) enquanto o site fica genérico
+/_backup_ricardo_real/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

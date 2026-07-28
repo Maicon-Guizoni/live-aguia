@@ -1,10 +1,10 @@
 export const campanha = {
   // Identificação
-  codigo: "board_imobiliario_2026",
-  nome: "O Board Imobiliário",
+  codigo: "santa_catarina_2026",
+  nome: "Santa Catarina: Um Brasil à Parte",
 
   // Evento
-  dataEvento: "2026-07-28T20:00:00-03:00",
+  dataEvento: "2026-08-13T20:00:00-03:00",
 
   // Bitrix
   pipeline: 36,
@@ -22,16 +22,21 @@ export const campanha = {
   grupoWhatsapp: "https://chat.whatsapp.com/IMy5qbIEOev5dcNbn9cBYf",
   pixelMeta: "870653505969793",
 
+  // Transmissão (página /assista)
+  // TODO: trocar pelo ID real do vídeo/live do YouTube quando estiver pronto
+  youtubeVideoId: "SrL0-74iEO8",
+
   // SEO
-  tituloSite: "Por que Investir no Litoral Norte de SC?",
-  descricao: "Com Flávio Augusto. Empreendedor, investidor e autor.",
+  tituloSite: "Santa Catarina: Um Brasil à Parte",
+  descricao:
+    "Águia & Santer apresentam: uma análise exclusiva com um convidado surpresa.",
 
   // Hero
   imagemDesktop: "/capa.webp",
   imagemMobile: "/capa-mobile.webp",
 
   // Selo acima do contador
-  selo: "AO VIVO | 28 DE JULHO | 20h",
+  selo: "AO VIVO | 13 DE AGOSTO | 20h",
   seloDestaque: "VAGAS LIMITADAS | 100% GRATUITO",
 
   // Formulário
@@ -66,10 +71,10 @@ export const campanha = {
   // Palestrantes (seção "Quem vai conduzir o evento")
   palestrantes: [
     {
-      nome: "Flávio Augusto",
-      cargo: "Participação exclusiva",
-      foto: "/palestrantes/flavio-augusto.webp",
-      bio: "Visionário implacável, Flávio Augusto saiu da periferia para construir um império bilionário. Hoje, à frente da Wiser, ele forja novos gigantes no Geração de Valor. Lenda do empreendedorismo.",
+      nome: "Convidado Surpresa",
+      cargo: "Em breve revelamos quem é",
+      foto: "/palestrantes/ricardo-amorim.webp",
+      bio: "Uma participação especial que ainda é segredo. Fica de olho — em breve contamos quem vai se juntar a Sandro Lucas e Eduardo Schuster nessa live exclusiva.",
     },
     {
       nome: "Sandro Lucas",
