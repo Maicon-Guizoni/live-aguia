@@ -32,8 +32,8 @@ export const campanha = {
     "Águia & Santer apresentam: uma análise exclusiva com um convidado surpresa.",
 
   // Hero
-  imagemDesktop: "/capa.webp",
-  imagemMobile: "/capa-mobile.webp",
+  imagemDesktop: "/capa.2ba2b616.webp",
+  imagemMobile: "/capa-mobile.5558b8b6.webp",
 
   // Selo acima do contador
   selo: "AO VIVO | 13 DE AGOSTO | 20h",
@@ -73,19 +73,19 @@ export const campanha = {
     {
       nome: "Convidado Surpresa",
       cargo: "Em breve revelamos quem é",
-      foto: "/palestrantes/ricardo-amorim.webp",
+      foto: "/palestrantes/ricardo-amorim.4adcef66.webp",
       bio: "Uma participação especial que ainda é segredo. Fica de olho — em breve contamos quem vai se juntar a Sandro Lucas e Eduardo Schuster nessa live exclusiva.",
     },
     {
       nome: "Sandro Lucas",
       cargo: "CEO da Águia Consultoria Imobiliária",
-      foto: "/palestrantes/sandro-lucas.webp",
+      foto: "/palestrantes/sandro-lucas.41143416.webp",
       bio: "Especialista em estruturação de investimentos imobiliários no Sul do Brasil, com atuação direta em projetos de alto padrão e estratégias voltadas à valorização inteligente de patrimônio.",
     },
     {
       nome: "Eduardo Schuster",
       cargo: "CEO da Santer Empreendimentos",
-      foto: "/palestrantes/eduardo-schuster.webp",
+      foto: "/palestrantes/eduardo-schuster.2f0fb16c.webp",
       bio: "À frente de uma das maiores incorporadoras de SC, compartilha os planos que estão por trás da nova fase do litoral.",
     },
   ],
