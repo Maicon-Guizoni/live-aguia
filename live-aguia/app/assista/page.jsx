@@ -151,7 +151,7 @@ export default function Assista() {
             <div className="h-[420px] w-full overflow-hidden rounded-xl bg-zinc-900 md:h-auto md:w-[340px] md:shrink-0">
               {dominioChat && (
                 <iframe
-                  src={`https://www.youtube.com/live_chat?v=${campanha.youtubeVideoId}&embed_domain=${dominioChat}`}
+                  src={`https://www.youtube.com/live_chat?v=${campanha.youtubeVideoId}&embed_domain=${dominioChat}&dark_theme=1`}
                   title="Chat ao vivo"
                   className="h-full w-full"
                 />
