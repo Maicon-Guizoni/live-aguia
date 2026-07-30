@@ -22,7 +22,7 @@ export const campanha = {
   // pra preencher o campo "Origem de Rastreio" no Bitrix automaticamente.
   origensRastreio: {
     "194": "PANFLETO FÍSICO PIÇARRAS",
-    "13": "PANFLETO FÍSICO JOINVILLE",
+    "210": "PANFLETO FÍSICO JOINVILLE",
     "7462": "OUTDOOR JOINVILLE",
     "7720": "OUTDOOR PIÇARRAS",
     "13966": "SHOPPING GARTEN - DIGITAL",
