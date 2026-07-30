@@ -132,7 +132,9 @@ export async function POST(request) {
       stageId = campanha.etapaValidado;
     }
 
-    const origemRastreio = campanha.origensRastreio[String(indicador)] || null;
+    const origemRastreio = reassumidoPorCorretor
+      ? "Lead cedido pelo Marketing"
+      : campanha.origensRastreio[String(indicador)] || null;
 
     // 2. Criar contato no Bitrix
     const contatoResponse = await fetch(`${webhook}/crm.contact.add`, {
@@ -217,7 +219,7 @@ Lead novo na campanha.
   utmContent: utm_content || "",
   utmTerm: utm_term || "",
 
-  ufCrm_1774964189: duplicado ? 23156 : null,
+  ufCrm_1774964189: duplicado && !reassumidoPorCorretor ? 23156 : null,
   ufCrm_1778773957526: corretorAtivo || null,
   ufCrm_68DD340519D3E: origemRastreio,
 
@@ -276,9 +278,17 @@ ${dataHora}
     const negocioId =
       negocioData.result?.item?.id || negocioData.result?.id || null;
 
-    // 3.1 Se esse lead foi reivindicado por um corretor, move o card antigo
-    // (que estava com o marketing) para a etapa de Duplicado.
+    // 3.1 Se esse lead foi reivindicado por um corretor, desqualifica o card
+    // antigo (que estava com o marketing): move pra etapa de Duplicado e
+    // acrescenta uma nota no histórico (timeline) explicando o motivo.
+    //
+    // Importante: a observação vai como nota no timeline (crm.timeline.comment.add),
+    // NÃO sobrescrevendo o campo "comments" do card — esse pipeline tem uma
+    // automação própria que regenera o campo "comments" logo depois de
+    // qualquer alteração, então uma nota ali seria perdida silenciosamente.
     if (reassumidoPorCorretor && leadOriginal?.bitrix_deal_id) {
+      const dealIdAntigo = Number(leadOriginal.bitrix_deal_id);
+
       await fetch(`${webhook}/crm.item.update`, {
         method: "POST",
         headers: {
@@ -286,9 +296,25 @@ ${dataHora}
         },
         body: JSON.stringify({
           entityTypeId: 2,
-          id: Number(leadOriginal.bitrix_deal_id),
+          id: dealIdAntigo,
           fields: {
             stageId: campanha.etapaDuplicado,
+          },
+        }),
+      });
+
+      await fetch(`${webhook}/crm.timeline.comment.add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fields: {
+            ENTITY_ID: dealIdAntigo,
+            ENTITY_TYPE: "deal",
+            COMMENT: `LEAD DESQUALIFICADO: esse lead veio originalmente pelo marketing e foi reivindicado pelo corretor ${
+              indicador || "desconhecido"
+            } (negócio #${negocioId || "desconhecido"}) em ${dataHora}. Esse card foi desqualificado.`,
           },
         }),
       });

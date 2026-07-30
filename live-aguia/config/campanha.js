@@ -10,13 +10,26 @@ export const campanha = {
   pipeline: 36,
   etapaInicial: "C36:NEW",
   etapaCorretorAtivo: "C36:UC_YMK87P",
-  etapaDuplicado: "C36:FINAL_INVOICE",
+  etapaDuplicado: "C36:LOSE",
   etapaValidado: "C36:UC_6S348W",
   nomeLead: "Lead Live",
 
   // IDs genéricos usados no link de indicador das campanhas de marketing
-  // (sem corretor específico atribuído ainda)
-  indicadoresMarketing: ["324", "366", "590", "194", "13964"],
+  // (sem corretor específico atribuído ainda) — todos os itens da planilha
+  // de rastreio, exceto panfleto físico e outdoor (esses têm responsável
+  // específico, não contam como "lead do marketing" pra essa regra).
+  indicadoresMarketing: [
+    "13966",
+    "324",
+    "322",
+    "320",
+    "590",
+    "13964",
+    "366",
+    "12094",
+    "8178",
+    "8180",
+  ],
 
   // Mapa indicador (link /r/<id>) -> nome da origem/página de rastreio,
   // pra preencher o campo "Origem de Rastreio" no Bitrix automaticamente.
