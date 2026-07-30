@@ -56,7 +56,7 @@ export const campanha = {
 
   // Transmissão (página /assista)
   // TODO: trocar pelo ID real do vídeo/live do YouTube quando estiver pronto
-  youtubeVideoId: "BCkhzVfBSwE",
+  youtubeVideoId: "9wupgBqL7pk",
 
   // SEO
   tituloSite: "Santa Catarina: Um Brasil à Parte",

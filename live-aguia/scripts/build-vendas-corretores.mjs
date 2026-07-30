@@ -87,21 +87,36 @@ function encontrarCorretorAtivo(textoCombinado) {
   const normalizado = normalizar(textoCombinado);
   if (!normalizado) return null;
 
-  // Quando mais de um corretor ativo bate no mesmo texto (ex: "Junior" e
-  // "Assis Junior" batem ambos em "Assis Junior 50% / SAV 50%"), fica com
-  // o nome mais longo/específico em vez do primeiro da lista.
-  let melhor = null;
+  // Uma venda pode ter mais de um corretor ativo de verdade envolvido (ex:
+  // venda feita por 2 equipes) — guarda todos os que baterem, não só um.
+  //
+  // Quando o mesmo corretor bate em mais de uma variação de nome (ex:
+  // "Junior" e "Assis Junior" batem ambos em "Assis Junior 50% / SAV 50%"),
+  // mantém só a mais longa/específica das que "cobrem" as outras, pra não
+  // listar a mesma pessoa duas vezes.
+  const encontrados = [];
   for (const corretor of ativosNormalizados) {
     if (
       corretor.regexPrimeira.test(normalizado) &&
       corretor.regexUltima.test(normalizado)
     ) {
-      if (!melhor || corretor.nome.length > melhor.length) {
-        melhor = corretor.nome;
-      }
+      encontrados.push(corretor.nome);
     }
   }
-  return melhor;
+
+  if (encontrados.length === 0) return null;
+
+  // Remove nomes que são substring de outro nome encontrado (mesma pessoa,
+  // variação mais curta) — ex: "Junior" some se "Assis Junior" também bateu.
+  const semRedundancia = encontrados.filter((nome) => {
+    const nomeNorm = normalizar(nome);
+    return !encontrados.some(
+      (outro) =>
+        outro !== nome && normalizar(outro).includes(nomeNorm)
+    );
+  });
+
+  return semRedundancia.join(" / ");
 }
 
 const registros = [];
