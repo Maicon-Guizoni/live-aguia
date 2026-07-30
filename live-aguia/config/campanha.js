@@ -18,6 +18,25 @@ export const campanha = {
   // (sem corretor específico atribuído ainda)
   indicadoresMarketing: ["324", "366", "590", "194", "13964"],
 
+  // Mapa indicador (link /r/<id>) -> nome da origem/página de rastreio,
+  // pra preencher o campo "Origem de Rastreio" no Bitrix automaticamente.
+  origensRastreio: {
+    "194": "PANFLETO FÍSICO PIÇARRAS",
+    "13": "PANFLETO FÍSICO JOINVILLE",
+    "7462": "OUTDOOR JOINVILLE",
+    "7720": "OUTDOOR PIÇARRAS",
+    "13966": "SHOPPING GARTEN - DIGITAL",
+    "324": "META ADS AGUIA",
+    "322": "META ADS LUAN",
+    "320": "META ADS SANDRO",
+    "590": "META ADS RECONHECIMENTO",
+    "13964": "YOUTUBE ADS",
+    "366": "COMUNIDADES",
+    "12094": "INSTAGRAM ORGANICO",
+    "8178": "INSTAGRAM PALESTRANTE (STORY)",
+    "8180": "MESA SHOPPING MUELLER",
+  },
+
   // Marketing
   grupoWhatsapp: "https://chat.whatsapp.com/IMy5qbIEOev5dcNbn9cBYf",
   pixelMeta: "870653505969793",

@@ -25,6 +25,8 @@ export default function Assista() {
   const sessionIdRef = useRef("");
   const playerRef = useRef(null);
   const intervaloRef = useRef(null);
+  const segundosAcumuladosRef = useRef(0);
+  const inicioSegmentoRef = useRef(null);
 
   useEffect(() => {
     sessionIdRef.current = obterSessionId();
@@ -55,18 +57,25 @@ export default function Assista() {
   useEffect(() => {
     if (etapa !== "assistindo") return;
 
+    // Mede quanto tempo de verdade a pessoa ficou com o vídeo tocando —
+    // NÃO a posição de reprodução (player.getCurrentTime()), que numa live
+    // reflete há quanto tempo a transmissão está no ar, não há quanto tempo
+    // esse visitante específico está assistindo.
+    function segundosAtuais() {
+      let total = segundosAcumuladosRef.current;
+      if (inicioSegmentoRef.current) {
+        total += (Date.now() - inicioSegmentoRef.current) / 1000;
+      }
+      return total;
+    }
+
     function enviarPing() {
-      const player = playerRef.current;
-      if (!player || typeof player.getCurrentTime !== "function") return;
-
-      const segundos = player.getCurrentTime();
-
       fetch("/api/presenca/ping", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           sessionId: sessionIdRef.current,
-          segundos,
+          segundos: segundosAtuais(),
         }),
       }).catch((erro) => console.log(erro));
     }
@@ -78,9 +87,17 @@ export default function Assista() {
         events: {
           onStateChange: (evento) => {
             if (evento.data === window.YT.PlayerState.PLAYING) {
+              inicioSegmentoRef.current = Date.now();
+
               if (intervaloRef.current) clearInterval(intervaloRef.current);
               intervaloRef.current = setInterval(enviarPing, 20000);
             } else {
+              if (inicioSegmentoRef.current) {
+                segundosAcumuladosRef.current +=
+                  (Date.now() - inicioSegmentoRef.current) / 1000;
+                inicioSegmentoRef.current = null;
+              }
+
               if (intervaloRef.current) clearInterval(intervaloRef.current);
               enviarPing();
             }

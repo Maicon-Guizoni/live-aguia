@@ -132,6 +132,8 @@ export async function POST(request) {
       stageId = campanha.etapaValidado;
     }
 
+    const origemRastreio = campanha.origensRastreio[String(indicador)] || null;
+
     // 2. Criar contato no Bitrix
     const contatoResponse = await fetch(`${webhook}/crm.contact.add`, {
       method: "POST",
@@ -217,6 +219,7 @@ Lead novo na campanha.
 
   ufCrm_1774964189: duplicado ? 23156 : null,
   ufCrm_1778773957526: corretorAtivo || null,
+  ufCrm_68DD340519D3E: origemRastreio,
 
   comments: `
 ${comentarioDuplicado}
