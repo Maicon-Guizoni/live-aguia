@@ -29,6 +29,10 @@ export const campanha = {
     "12094",
     "8178",
     "8180",
+    "2082",
+    "3580",
+    "954",
+    "9056",
   ],
 
   // Mapa indicador (link /r/<id>) -> nome da origem/página de rastreio,
@@ -48,6 +52,10 @@ export const campanha = {
     "12094": "INSTAGRAM ORGANICO",
     "8178": "INSTAGRAM PALESTRANTE (STORY)",
     "8180": "MESA SHOPPING MUELLER",
+    "2082": "SHOPPING IGUATEMI - SP",
+    "3580": "BALNEÁRIO SHOPPING - BC",
+    "954": "SHOPPING BATEL - CWB",
+    "9056": "PEDÁGIO BARRA VELHA",
   },
 
   // Marketing
