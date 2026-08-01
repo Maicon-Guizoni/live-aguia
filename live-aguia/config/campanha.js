@@ -58,6 +58,7 @@ export const campanha = {
     "954": "SHOPPING BATEL - CWB",
     "9056": "PEDÁGIO BARRA VELHA",
     "8386": "DISPARO WHATSAPP E MAILING",
+    "5458": "BASE SANTER",
   },
 
   // Marketing
