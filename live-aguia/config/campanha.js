@@ -71,11 +71,11 @@ export const campanha = {
   // SEO
   tituloSite: "Santa Catarina: Um Brasil à Parte",
   descricao:
-    "Águia & Santer apresentam: uma análise exclusiva com um convidado surpresa.",
+    "Águia & Santer apresentam: uma análise exclusiva com Ricardo Amorim.",
 
   // Hero
-  imagemDesktop: "/capa.2ba2b616.webp",
-  imagemMobile: "/capa-mobile.5558b8b6.webp",
+  imagemDesktop: "/capa.a3bce559.webp",
+  imagemMobile: "/capa-mobile.95300fc8.webp",
 
   // Selo acima do contador
   selo: "AO VIVO | 13 DE AGOSTO | 20h",
@@ -113,10 +113,10 @@ export const campanha = {
   // Palestrantes (seção "Quem vai conduzir o evento")
   palestrantes: [
     {
-      nome: "Convidado Surpresa",
-      cargo: "Em breve revelamos quem é",
-      foto: "/palestrantes/ricardo-amorim.4adcef66.webp",
-      bio: "Uma participação especial que ainda é segredo. Fica de olho — em breve contamos quem vai se juntar a Sandro Lucas e Eduardo Schuster nessa live exclusiva.",
+      nome: "Ricardo Amorim",
+      cargo: "Participação exclusiva",
+      foto: "/palestrantes/ricardo-amorim.04a6eb71.webp",
+      bio: "Economista mais influente do Brasil, Ricardo Amorim decifrou a complexidade do mercado para guiar milhares de investidores. Hoje, à frente da Ricam Consultoria, antecipa tendências para novos líderes. Lenda da economia.",
     },
     {
       nome: "Sandro Lucas",

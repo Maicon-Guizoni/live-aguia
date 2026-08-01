@@ -16,8 +16,8 @@ export default function Termos() {
             Transmissão (“Termo”) estabelece as regras aplicáveis à
             participação no evento online promovido pela Águia Consultoria
             Imobiliária (“Águia”), inscrita no CNPJ/MF n. 14.865.476/0001-08
-            no dia 13 de agosto, às 20h, com a participação de um convidado
-            surpresa (“Evento”). Ao prosseguir e/ou acessar o Evento,
+            no dia 13 de agosto, às 20h, com a participação do palestrante
+            Ricardo Amorim (“Evento”). Ao prosseguir e/ou acessar o Evento,
             com o acesso ao conteúdo disponibilizado, o participante declara
             que leu, compreendeu e concorda com as seguintes condições:
           </p>
