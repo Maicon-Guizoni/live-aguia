@@ -104,6 +104,13 @@ function encontrarCorretorAtivo(textoCombinado) {
     }
   }
 
+  // "SAV" é uma equipe própria da Águia (ativa), não uma pessoa — mas conta
+  // como corretor ativo igual, então basta a palavra aparecer (ex: "SAV",
+  // "SAV 01", "SAV 02", "Fulano 50% / SAV 50%").
+  if (/\bsav\b/.test(normalizado)) {
+    encontrados.push("SAV");
+  }
+
   if (encontrados.length === 0) return null;
 
   // Remove nomes que são substring de outro nome encontrado (mesma pessoa,

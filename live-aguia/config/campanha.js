@@ -34,6 +34,7 @@ export const campanha = {
     "954",
     "9056",
     "8386",
+    "2798",
   ],
 
   // Mapa indicador (link /r/<id>) -> nome da origem/página de rastreio,
@@ -59,6 +60,7 @@ export const campanha = {
     "9056": "PEDÁGIO BARRA VELHA",
     "8386": "DISPARO WHATSAPP E MAILING",
     "5458": "BASE SANTER",
+    "2798": "META ADS TRAFEGO",
   },
 
   // Marketing
