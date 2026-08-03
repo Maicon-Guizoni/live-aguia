@@ -77,6 +77,49 @@ export async function POST(request) {
       }
     }
 
+    // 0.1 Se o lead veio pelo link genérico de Comunidades (366), verificar
+    // se ele já tinha se inscrito numa live anterior através de um corretor
+    // específico — se achar, o responsável do card passa a ser esse corretor
+    // ao invés de ficar no genérico 366 (só muda o responsável, o resto do
+    // rastreio continua normalmente como Comunidades).
+    let indicadorEfetivo = indicador;
+
+    if (
+      String(indicador) === "366" &&
+      supabaseUrl &&
+      supabaseKey &&
+      (telefoneLimpo || emailLimpo)
+    ) {
+      const filtrosAnterior = [];
+
+      if (telefoneLimpo) {
+        filtrosAnterior.push(`telefone.eq.${telefoneLimpo}`);
+      }
+
+      if (emailLimpo) {
+        filtrosAnterior.push(`email.eq.${emailLimpo}`);
+      }
+
+      const consultaAnterior = await fetch(
+        `${supabaseUrl}/rest/v1/inscritos_evento_anterior?select=responsavel_id&or=(${filtrosAnterior.join(
+          ","
+        )})&limit=1`,
+        {
+          method: "GET",
+          headers: {
+            apikey: supabaseKey,
+            Authorization: `Bearer ${supabaseKey}`,
+          },
+        }
+      );
+
+      const encontradosAnterior = await consultaAnterior.json();
+
+      if (Array.isArray(encontradosAnterior) && encontradosAnterior.length > 0) {
+        indicadorEfetivo = encontradosAnterior[0].responsavel_id;
+      }
+    }
+
     // 1. Consultar duplicado no Supabase
     let leadOriginal = null;
 
@@ -211,7 +254,7 @@ Lead novo na campanha.
   categoryId: campanha.pipeline,
   stageId: stageId,
 
-  assignedById: Number(indicador),
+  assignedById: Number(indicadorEfetivo),
 
   utmSource: utm_source || "",
   utmMedium: utm_medium || "",
