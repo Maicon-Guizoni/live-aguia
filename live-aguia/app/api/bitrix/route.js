@@ -84,7 +84,12 @@ export async function POST(request) {
     // rastreio continua normalmente como Comunidades).
     let indicadorEfetivo = indicador;
 
-    if (
+    // Redirecionamento direto configurado (indicador X sempre cria no nome
+    // do indicador Y) — tem prioridade sobre a busca na planilha da live
+    // anterior, que só vale pro indicador 366.
+    if (campanha.redirecionamentoResponsavel[String(indicador)]) {
+      indicadorEfetivo = campanha.redirecionamentoResponsavel[String(indicador)];
+    } else if (
       String(indicador) === "366" &&
       supabaseUrl &&
       supabaseKey &&

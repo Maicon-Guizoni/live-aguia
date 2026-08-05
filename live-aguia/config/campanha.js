@@ -37,6 +37,16 @@ export const campanha = {
     "2798",
   ],
 
+  // Mapa indicador -> indicador: quando um lead vem por um desses IDs, o
+  // card no Bitrix é criado direto no nome do responsável mapeado, ao invés
+  // do indicador original do link. Só muda o responsável (assignedById) —
+  // o resto do rastreio (título, origem, UTM) continua normal.
+  redirecionamentoResponsavel: {
+    "15392": "2788",
+    "15394": "2788",
+    "15396": "2788",
+  },
+
   // Mapa indicador (link /r/<id>) -> nome da origem/página de rastreio,
   // pra preencher o campo "Origem de Rastreio" no Bitrix automaticamente.
   origensRastreio: {
@@ -61,6 +71,9 @@ export const campanha = {
     "8386": "DISPARO WHATSAPP E MAILING",
     "5458": "BASE SANTER",
     "2798": "META ADS TRAFEGO",
+    "15392": "AMADORI CASA DE CARNES - GUARDIÕES",
+    "15394": "BAR DO ANISIO - GUARDIÕES",
+    "15396": "RESTAURANTE CAPITÃO - GUARDIÕES",
   },
 
   // Marketing
