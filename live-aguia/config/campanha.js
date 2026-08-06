@@ -35,6 +35,12 @@ export const campanha = {
     "9056",
     "8386",
     "2798",
+    "15368",
+    "15370",
+    "15372",
+    "15374",
+    "15376",
+    "15378",
   ],
 
   // Mapa indicador -> indicador: quando um lead vem por um desses IDs, o
@@ -74,6 +80,12 @@ export const campanha = {
     "15392": "AMADORI CASA DE CARNES - GUARDIÕES",
     "15394": "BAR DO ANISIO - GUARDIÕES",
     "15396": "RESTAURANTE CAPITÃO - GUARDIÕES",
+    "15368": "DISPARO BASE SANTER COMPRA",
+    "15370": "DISPARO BASE MKT",
+    "15372": "DISPARO BASE INBOUND",
+    "15374": "DISPARO BASE OUTBOUND",
+    "15376": "DISPARO BASE CLOSER",
+    "15378": "DISPARO BASE CLIENTES",
   },
 
   // Marketing
