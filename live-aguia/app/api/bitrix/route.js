@@ -16,8 +16,13 @@ export async function POST(request) {
   utm_term,
 } = body;
 
+    // O site fica atrás da Cloudflare, que reescreve o x-forwarded-for com o
+    // IP do servidor de borda dela — o IP real do visitante vem no header
+    // cf-connecting-ip. Sem esse header (ex: acesso direto à Vercel em
+    // dev/preview), cai pro x-forwarded-for/x-real-ip como antes.
     const ip =
-      request.headers.get("x-forwarded-for")?.split(",")[0] ||
+      request.headers.get("cf-connecting-ip") ||
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
       request.headers.get("x-real-ip") ||
       "IP não identificado";
 
