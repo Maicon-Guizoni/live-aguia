@@ -51,6 +51,7 @@ export const campanha = {
     "15392": "2788",
     "15394": "2788",
     "15396": "2788",
+    "15594": "352",
   },
 
   // Mapa indicador (link /r/<id>) -> nome da origem/página de rastreio,
@@ -86,6 +87,7 @@ export const campanha = {
     "15374": "DISPARO BASE OUTBOUND",
     "15376": "DISPARO BASE CLOSER",
     "15378": "DISPARO BASE CLIENTES",
+    "15594": "SIDNEY - BARAUNA",
   },
 
   // Marketing
