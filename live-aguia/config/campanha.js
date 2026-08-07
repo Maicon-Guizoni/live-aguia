@@ -96,7 +96,7 @@ export const campanha = {
   },
 
   // Marketing
-  grupoWhatsapp: "https://chat.whatsapp.com/IMy5qbIEOev5dcNbn9cBYf",
+  grupoWhatsapp: "https://chat.whatsapp.com/FSSnSBBIbHgL6aJglI1lO7",
   pixelMeta: "870653505969793",
 
   // Transmissão (página /assista)
