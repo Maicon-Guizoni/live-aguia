@@ -177,9 +177,16 @@ export async function POST(request) {
       campanha.indicadoresMarketing.includes(String(leadOriginal?.indicador)) &&
       !campanha.indicadoresMarketing.includes(String(indicador));
 
+    // Prioridade: duplicado simples (mesma campanha, mesmo indicador de
+    // marketing) manda pra Duplicados mesmo que a pessoa já seja cliente —
+    // senão toda reinscrição de um cliente antigo voltaria pra Já Comprou e
+    // escondia que é um cadastro repetido. Reassumido pelo corretor e
+    // corretor ativo continuam com prioridade sobre um cadastro comum.
     let stageId = campanha.etapaInicial;
 
-    if (corretorAtivo) {
+    if (duplicado && !reassumidoPorCorretor) {
+      stageId = campanha.etapaDuplicado;
+    } else if (corretorAtivo) {
       stageId = campanha.etapaCorretorAtivo;
     } else if (reassumidoPorCorretor) {
       stageId = campanha.etapaValidado;
@@ -352,7 +359,7 @@ ${dataHora}
           entityTypeId: 2,
           id: dealIdAntigo,
           fields: {
-            stageId: campanha.etapaDuplicado,
+            stageId: campanha.etapaDesqualificado,
           },
         }),
       });

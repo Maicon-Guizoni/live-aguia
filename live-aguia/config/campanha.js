@@ -10,7 +10,12 @@ export const campanha = {
   pipeline: 36,
   etapaInicial: "C36:NEW",
   etapaCorretorAtivo: "C36:UC_YMK87P",
-  etapaDuplicado: "C36:LOSE",
+  // Usada só pro card ANTIGO do marketing quando é substituído pelo card
+  // de um corretor de verdade (fluxo "reassumido pelo corretor").
+  etapaDesqualificado: "C36:LOSE",
+  // Etapa "Duplicados" de verdade do funil — usada pro card NOVO quando é
+  // só uma reinscrição repetida (mesmo indicador, mesma campanha).
+  etapaDuplicado: "C36:FINAL_INVOICE",
   etapaValidado: "C36:UC_6S348W",
   nomeLead: "Lead Live",
 
