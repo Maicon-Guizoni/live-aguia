@@ -104,8 +104,8 @@ export const campanha = {
     "Águia & Santer apresentam: uma análise exclusiva com Ricardo Amorim.",
 
   // Hero
-  imagemDesktop: "/capa.a3bce559.webp",
-  imagemMobile: "/capa-mobile.95300fc8.webp",
+  imagemDesktop: "/capa.1d257a90.jpg",
+  imagemMobile: "/capa-mobile.0db2fb2b.jpg",
 
   // Selo acima do contador
   selo: "AO VIVO | 13 DE AGOSTO | 20h",
