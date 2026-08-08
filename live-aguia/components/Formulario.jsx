@@ -278,7 +278,7 @@ export default function Formulario({
             />
             <span>
               Li e concordo com o{" "}
-              
+              <a
                 href="/termos"
                 target="_blank"
                 rel="noreferrer"
