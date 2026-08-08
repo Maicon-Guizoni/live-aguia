@@ -173,9 +173,11 @@ useEffect(() => {
         setStatus("Erro ao cadastrar.");
         console.log(resultado);
       }
-    } catch (erro) {
+} catch (erro) {
       console.log(erro);
       setStatus("Erro ao enviar formulário.");
+    } finally {
+      setEnviando(false);
     }
   }
 
