@@ -1,4 +1,89 @@
+"use client";
+
+import { useState } from "react";
 import { campanha } from "@/config/campanha";
+
+// id = sigla do país (único). ddi = código de discagem (vários países dividem o +1).
+// Para adicionar um país, acrescente uma linha aqui.
+export const paises = [
+  // ---------- Américas ----------
+  { id: "BR", ddi: "55", nome: "Brasil", bandeira: "🇧🇷", grupo: "Américas" },
+  { id: "AI", ddi: "1", nome: "Anguilla", bandeira: "🇦🇮", grupo: "Américas" },
+  { id: "AG", ddi: "1", nome: "Antígua e Barbuda", bandeira: "🇦🇬", grupo: "Américas" },
+  { id: "AR", ddi: "54", nome: "Argentina", bandeira: "🇦🇷", grupo: "Américas" },
+  { id: "AW", ddi: "297", nome: "Aruba", bandeira: "🇦🇼", grupo: "Américas" },
+  { id: "BS", ddi: "1", nome: "Bahamas", bandeira: "🇧🇸", grupo: "Américas" },
+  { id: "BB", ddi: "1", nome: "Barbados", bandeira: "🇧🇧", grupo: "Américas" },
+  { id: "BZ", ddi: "501", nome: "Belize", bandeira: "🇧🇿", grupo: "Américas" },
+  { id: "BM", ddi: "1", nome: "Bermudas", bandeira: "🇧🇲", grupo: "Américas" },
+  { id: "BO", ddi: "591", nome: "Bolívia", bandeira: "🇧🇴", grupo: "Américas" },
+  { id: "BQ", ddi: "599", nome: "Caribe Neerlandês", bandeira: "🇧🇶", grupo: "Américas" },
+  { id: "CA", ddi: "1", nome: "Canadá", bandeira: "🇨🇦", grupo: "Américas" },
+  { id: "CL", ddi: "56", nome: "Chile", bandeira: "🇨🇱", grupo: "Américas" },
+  { id: "CO", ddi: "57", nome: "Colômbia", bandeira: "🇨🇴", grupo: "Américas" },
+  { id: "CR", ddi: "506", nome: "Costa Rica", bandeira: "🇨🇷", grupo: "Américas" },
+  { id: "CU", ddi: "53", nome: "Cuba", bandeira: "🇨🇺", grupo: "Américas" },
+  { id: "CW", ddi: "599", nome: "Curaçao", bandeira: "🇨🇼", grupo: "Américas" },
+  { id: "DM", ddi: "1", nome: "Dominica", bandeira: "🇩🇲", grupo: "Américas" },
+  { id: "SV", ddi: "503", nome: "El Salvador", bandeira: "🇸🇻", grupo: "Américas" },
+  { id: "EC", ddi: "593", nome: "Equador", bandeira: "🇪🇨", grupo: "Américas" },
+  { id: "US", ddi: "1", nome: "Estados Unidos", bandeira: "🇺🇸", grupo: "Américas" },
+  { id: "GD", ddi: "1", nome: "Granada", bandeira: "🇬🇩", grupo: "Américas" },
+  { id: "GL", ddi: "299", nome: "Groenlândia", bandeira: "🇬🇱", grupo: "Américas" },
+  { id: "GP", ddi: "590", nome: "Guadalupe", bandeira: "🇬🇵", grupo: "Américas" },
+  { id: "GT", ddi: "502", nome: "Guatemala", bandeira: "🇬🇹", grupo: "Américas" },
+  { id: "GY", ddi: "592", nome: "Guiana", bandeira: "🇬🇾", grupo: "Américas" },
+  { id: "GF", ddi: "594", nome: "Guiana Francesa", bandeira: "🇬🇫", grupo: "Américas" },
+  { id: "HT", ddi: "509", nome: "Haiti", bandeira: "🇭🇹", grupo: "Américas" },
+  { id: "HN", ddi: "504", nome: "Honduras", bandeira: "🇭🇳", grupo: "Américas" },
+  { id: "KY", ddi: "1", nome: "Ilhas Cayman", bandeira: "🇰🇾", grupo: "Américas" },
+  { id: "FK", ddi: "500", nome: "Ilhas Malvinas", bandeira: "🇫🇰", grupo: "Américas" },
+  { id: "VG", ddi: "1", nome: "Ilhas Virgens Britânicas", bandeira: "🇻🇬", grupo: "Américas" },
+  { id: "VI", ddi: "1", nome: "Ilhas Virgens Americanas", bandeira: "🇻🇮", grupo: "Américas" },
+  { id: "JM", ddi: "1", nome: "Jamaica", bandeira: "🇯🇲", grupo: "Américas" },
+  { id: "MQ", ddi: "596", nome: "Martinica", bandeira: "🇲🇶", grupo: "Américas" },
+  { id: "MX", ddi: "52", nome: "México", bandeira: "🇲🇽", grupo: "Américas" },
+  { id: "MS", ddi: "1", nome: "Montserrat", bandeira: "🇲🇸", grupo: "Américas" },
+  { id: "NI", ddi: "505", nome: "Nicarágua", bandeira: "🇳🇮", grupo: "Américas" },
+  { id: "PA", ddi: "507", nome: "Panamá", bandeira: "🇵🇦", grupo: "Américas" },
+  { id: "PY", ddi: "595", nome: "Paraguai", bandeira: "🇵🇾", grupo: "Américas" },
+  { id: "PE", ddi: "51", nome: "Peru", bandeira: "🇵🇪", grupo: "Américas" },
+  { id: "PR", ddi: "1", nome: "Porto Rico", bandeira: "🇵🇷", grupo: "Américas" },
+  { id: "DO", ddi: "1", nome: "República Dominicana", bandeira: "🇩🇴", grupo: "Américas" },
+  { id: "BL", ddi: "590", nome: "São Bartolomeu", bandeira: "🇧🇱", grupo: "Américas" },
+  { id: "KN", ddi: "1", nome: "São Cristóvão e Neves", bandeira: "🇰🇳", grupo: "Américas" },
+  { id: "MF", ddi: "590", nome: "São Martinho", bandeira: "🇲🇫", grupo: "Américas" },
+  { id: "PM", ddi: "508", nome: "São Pedro e Miquelão", bandeira: "🇵🇲", grupo: "Américas" },
+  { id: "VC", ddi: "1", nome: "São Vicente e Granadinas", bandeira: "🇻🇨", grupo: "Américas" },
+  { id: "LC", ddi: "1", nome: "Santa Lúcia", bandeira: "🇱🇨", grupo: "Américas" },
+  { id: "SX", ddi: "1", nome: "Sint Maarten", bandeira: "🇸🇽", grupo: "Américas" },
+  { id: "SR", ddi: "597", nome: "Suriname", bandeira: "🇸🇷", grupo: "Américas" },
+  { id: "TT", ddi: "1", nome: "Trinidad e Tobago", bandeira: "🇹🇹", grupo: "Américas" },
+  { id: "TC", ddi: "1", nome: "Turks e Caicos", bandeira: "🇹🇨", grupo: "Américas" },
+  { id: "UY", ddi: "598", nome: "Uruguai", bandeira: "🇺🇾", grupo: "Américas" },
+  { id: "VE", ddi: "58", nome: "Venezuela", bandeira: "🇻🇪", grupo: "Américas" },
+
+  // ---------- Outros países ----------
+  { id: "DE", ddi: "49", nome: "Alemanha", bandeira: "🇩🇪", grupo: "Outros países" },
+  { id: "AO", ddi: "244", nome: "Angola", bandeira: "🇦🇴", grupo: "Outros países" },
+  { id: "AU", ddi: "61", nome: "Austrália", bandeira: "🇦🇺", grupo: "Outros países" },
+  { id: "BE", ddi: "32", nome: "Bélgica", bandeira: "🇧🇪", grupo: "Outros países" },
+  { id: "AE", ddi: "971", nome: "Emirados Árabes", bandeira: "🇦🇪", grupo: "Outros países" },
+  { id: "ES", ddi: "34", nome: "Espanha", bandeira: "🇪🇸", grupo: "Outros países" },
+  { id: "FR", ddi: "33", nome: "França", bandeira: "🇫🇷", grupo: "Outros países" },
+  { id: "NL", ddi: "31", nome: "Holanda", bandeira: "🇳🇱", grupo: "Outros países" },
+  { id: "IE", ddi: "353", nome: "Irlanda", bandeira: "🇮🇪", grupo: "Outros países" },
+  { id: "IT", ddi: "39", nome: "Itália", bandeira: "🇮🇹", grupo: "Outros países" },
+  { id: "JP", ddi: "81", nome: "Japão", bandeira: "🇯🇵", grupo: "Outros países" },
+  { id: "LU", ddi: "352", nome: "Luxemburgo", bandeira: "🇱🇺", grupo: "Outros países" },
+  { id: "MZ", ddi: "258", nome: "Moçambique", bandeira: "🇲🇿", grupo: "Outros países" },
+  { id: "PT", ddi: "351", nome: "Portugal", bandeira: "🇵🇹", grupo: "Outros países" },
+  { id: "GB", ddi: "44", nome: "Reino Unido", bandeira: "🇬🇧", grupo: "Outros países" },
+  { id: "CH", ddi: "41", nome: "Suíça", bandeira: "🇨🇭", grupo: "Outros países" },
+  { id: "ZZ", ddi: "", nome: "Outro país (informar DDI)", bandeira: "🌎", grupo: "Outros países" },
+];
+
+export const grupos = ["Américas", "Outros países"];
 
 function formatarTelefone(valor) {
   const digitos = valor.replace(/\D/g, "").slice(0, 11);
@@ -24,6 +109,26 @@ export default function Formulario({
   erroTelefone,
   status,
 }) {
+  const [paisId, setPaisId] = useState("BR");
+  const [telefone, setTelefone] = useState("");
+  const [ddiManual, setDdiManual] = useState("");
+
+  const pais = paises.find((item) => item.id === paisId) || paises[0];
+  const brasil = paisId === "BR";
+  const outro = paisId === "ZZ";
+  const ddiFinal = outro ? ddiManual : pais.ddi;
+
+  function aoDigitarTelefone(event) {
+    const valor = event.target.value;
+    setTelefone(brasil ? formatarTelefone(valor) : valor.replace(/[^\d\s()-]/g, "").slice(0, 20));
+  }
+
+  function aoTrocarPais(event) {
+    setPaisId(event.target.value);
+    setTelefone("");
+    setDdiManual("");
+  }
+
   return (
     <div className="mx-auto mt-10 max-w-xl">
       <div className="rounded-2xl border border-black/5 bg-white p-7 text-black shadow-[0_25px_60px_-15px_rgba(0,0,0,0.45)] sm:p-9">
@@ -108,32 +213,60 @@ export default function Formulario({
             <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-zinc-400">
               Telefone / WhatsApp
             </span>
-            <div className="relative">
-              <svg
-                className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a1.5 1.5 0 0 0 1.5-1.5v-2.148a1.5 1.5 0 0 0-1.206-1.47l-3.223-.645a1.5 1.5 0 0 0-1.53.563l-.71.947a11.25 11.25 0 0 1-5.373-5.373l.947-.71a1.5 1.5 0 0 0 .563-1.53l-.645-3.223A1.5 1.5 0 0 0 5.898 3H3.75a1.5 1.5 0 0 0-1.5 1.5v2.25Z"
+            <select
+              name="pais"
+              value={paisId}
+              onChange={aoTrocarPais}
+              aria-label="País do telefone"
+              className="mb-2 w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3.5 text-black outline-none transition focus:border-[#f89921] focus:bg-white focus:ring-4 focus:ring-[#f89921]/15"
+            >
+              {grupos.map((grupo) => (
+                <optgroup key={grupo} label={grupo}>
+                  {paises
+                    .filter((item) => item.grupo === grupo)
+                    .map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.bandeira} {item.nome}
+                        {item.ddi ? ` (+${item.ddi})` : ""}
+                      </option>
+                    ))}
+                </optgroup>
+              ))}
+            </select>
+
+            <input type="hidden" name="ddi" value={ddiFinal} />
+
+            <div className="flex gap-2">
+              {outro && (
+                <input
+                  name="ddiManual"
+                  required
+                  inputMode="numeric"
+                  maxLength={4}
+                  value={ddiManual}
+                  onChange={(event) => setDdiManual(event.target.value.replace(/\D/g, ""))}
+                  placeholder="DDI"
+                  aria-label="Código do país"
+                  className="w-[86px] shrink-0 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-3.5 text-black outline-none transition focus:border-[#f89921] focus:bg-white focus:ring-4 focus:ring-[#f89921]/15"
                 />
-              </svg>
+              )}
+
               <input
                 name="telefone"
                 required
-                inputMode="numeric"
-                maxLength={15}
-                placeholder="(47) 91234-5678"
-                onChange={(event) => {
-                  event.target.value = formatarTelefone(event.target.value);
-                }}
-                className="w-full rounded-xl border border-zinc-200 bg-zinc-50 py-3.5 pl-12 pr-4 text-black outline-none transition focus:border-[#f89921] focus:bg-white focus:ring-4 focus:ring-[#f89921]/15"
+                type="tel"
+                inputMode="tel"
+                value={telefone}
+                onChange={aoDigitarTelefone}
+                placeholder={brasil ? "(47) 91234-5678" : "Número sem o código do país"}
+                className="w-full min-w-0 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3.5 text-black outline-none transition focus:border-[#f89921] focus:bg-white focus:ring-4 focus:ring-[#f89921]/15"
               />
             </div>
+            {!brasil && (
+              <span className="mt-1.5 block text-xs text-zinc-400">
+                Digite apenas o número local, sem o código do país e sem o zero inicial.
+              </span>
+            )}
           </label>
 
           <label className="flex items-start gap-2.5 text-left text-sm text-zinc-600">
@@ -145,7 +278,7 @@ export default function Formulario({
             />
             <span>
               Li e concordo com o{" "}
-              <a
+              
                 href="/termos"
                 target="_blank"
                 rel="noreferrer"
