@@ -146,6 +146,7 @@ useEffect(() => {
       nome: form.nome.value,
       telefone: telefoneLimpo,
       email: emailLimpo,
+      profissao: form.profissao.value.trim(),
       indicador,
 
       utm_source: localStorage.getItem("utm_source") || "",

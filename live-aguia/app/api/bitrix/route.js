@@ -8,6 +8,7 @@ export async function POST(request) {
   nome,
   telefone,
   email,
+  profissao,
   indicador,
   utm_source,
   utm_medium,
@@ -282,6 +283,7 @@ Lead novo na campanha.
   ufCrm_1774964189: duplicado && !reassumidoPorCorretor ? 23156 : null,
   ufCrm_1778773957526: corretorAtivo || null,
   ufCrm_1773284588156: corretorAtivo ? 23056 : null,
+  ufCrm_1773333088804: profissao ? [profissao] : [],
   ufCrm_68DD340519D3E: origemRastreio,
 
   comments: `
