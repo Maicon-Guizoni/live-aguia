@@ -229,6 +229,7 @@ export default function Formulario({
               </svg>
               <input
                 name="profissao"
+                required
                 placeholder="Sua profissão"
                 className="w-full rounded-xl border border-zinc-200 bg-zinc-50 py-3.5 pl-12 pr-4 text-black outline-none transition focus:border-[#f89921] focus:bg-white focus:ring-4 focus:ring-[#f89921]/15"
               />
