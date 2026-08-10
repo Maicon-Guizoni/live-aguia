@@ -95,6 +95,7 @@ export const campanha = {
     "15594": "SIDNEY - BARAUNA",
     "15642": "Sandro Story Live",
     "15646": "Ricardo Amorim",
+    "15648": "Disparo Thiago Nigro",
   },
 
   // Marketing
