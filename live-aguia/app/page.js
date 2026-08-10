@@ -97,13 +97,39 @@ useEffect(() => {
 
     const form = event.target;
 
-    const telefoneLimpo = form.telefone.value.replace(/\D/g, "");
     const emailLimpo = form.email.value.trim().toLowerCase();
 
-    if (telefoneLimpo.length !== 11) {
-      setErroTelefone("Digite um telefone válido com 11 digitos. Exemplo: 47912345678");
-      setEnviando(false);
-      return;
+    const ddi = (form.ddi?.value || "55").replace(/\D/g, "");
+
+    let telefoneLimpo = form.telefone.value.replace(/\D/g, "");
+
+    if (ddi === "55") {
+      // Brasil: mantém a regra de sempre (DDD + 9 dígitos).
+      if (telefoneLimpo.length !== 11) {
+        setErroTelefone("Digite um telefone válido com 11 dígitos. Exemplo: 47912345678");
+        setEnviando(false);
+        return;
+      }
+    } else {
+      if (!ddi) {
+        setErroTelefone("Informe o código do país (DDI). Exemplo: 351 para Portugal.");
+        setEnviando(false);
+        return;
+      }
+
+      // Tira o DDI repetido e o zero de tronco, se a pessoa digitar junto.
+      if (telefoneLimpo.startsWith(ddi)) {
+        telefoneLimpo = telefoneLimpo.slice(ddi.length);
+      }
+      telefoneLimpo = telefoneLimpo.replace(/^0+/, "");
+
+      if (telefoneLimpo.length < 6 || telefoneLimpo.length > 14) {
+        setErroTelefone("Digite um telefone válido, sem o código do país.");
+        setEnviando(false);
+        return;
+      }
+
+      telefoneLimpo = `${ddi}${telefoneLimpo}`;
     }
 
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailLimpo);
@@ -147,7 +173,7 @@ useEffect(() => {
         setStatus("Erro ao cadastrar.");
         console.log(resultado);
       }
-    } catch (erro) {
+} catch (erro) {
       console.log(erro);
       setStatus("Erro ao enviar formulário.");
     } finally {
