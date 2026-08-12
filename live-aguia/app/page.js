@@ -145,6 +145,7 @@ useEffect(() => {
     const dados = {
       nome: form.nome.value,
       telefone: telefoneLimpo,
+      ddi,
       email: emailLimpo,
       profissao: form.profissao.value.trim(),
       indicador,

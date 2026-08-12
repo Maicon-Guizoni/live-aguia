@@ -7,6 +7,7 @@ export async function POST(request) {
     const {
   nome,
   telefone,
+  ddi,
   email,
   profissao,
   indicador,
@@ -48,6 +49,15 @@ export async function POST(request) {
 
     const telefoneLimpo = String(telefone).replace(/\D/g, "");
     const emailLimpo = email ? String(email).trim().toLowerCase() : "";
+
+    // Telefone só pro cadastro do contato no Bitrix, com DDI na frente
+    // (ex: 55DDD9XXXXXXX pro Brasil). Fora do Brasil o DDI já vem embutido
+    // no telefoneLimpo (o site já monta assim antes de enviar), então não
+    // duplica. Esse telefoneBitrix NÃO é usado nas buscas internas — a
+    // base de vendas e os leads salvos continuam sem o 55, então trocar o
+    // telefoneLimpo quebraria a comparação com o que já está gravado.
+    const telefoneBitrix =
+      String(ddi || "55") === "55" ? `55${telefoneLimpo}` : telefoneLimpo;
 
     // 0. Verificar se o lead já é cliente de um corretor ativo na Águia
     let corretorAtivo = null;
@@ -208,7 +218,7 @@ export async function POST(request) {
           NAME: nome,
           PHONE: [
             {
-              VALUE: telefoneLimpo,
+              VALUE: telefoneBitrix,
               VALUE_TYPE: "WORK",
             },
           ],
